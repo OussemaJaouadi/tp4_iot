@@ -1,0 +1,8 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: tp-k3s # The name of the cluster
+servers: 1 # Number of servers
+agents: 2 # Number of agents
+ports:
+  - port: 5000:30080 # Map localhost:5000 to the NodePort assigned to the service

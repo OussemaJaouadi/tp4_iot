@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  k3s-server:
+    image: rancher/k3s:latest
+    command: server
+    privileged: true
+    volumes:
+      - /var/lib/rancher/k3s:/var/lib/rancher/k3s
+    ports:
+      - "6443:6443"
+      - "80:80"
+      - "443:443"
+
+  agent1:
+    image: rancher/k3s:latest
+    command: agent
+    privileged: true
+    environment:
+      K3S_URL: "https://k3s-server:6443"
+      K3S_TOKEN: "${K3S_TOKEN}"
+    depends_on:
+      - k3s-server
+
+  agent2:
+    image: rancher/k3s:latest
+    command: agent
+    privileged: true
+    environment:
+      K3S_URL: "https://k3s-server:6443"
+      K3S_TOKEN: "${K3S_TOKEN}"
+    depends_on:
+      - k3s-server
